@@ -1,10 +1,9 @@
 import { Blog } from '../providers/blog';
-import { InjectFn } from '@graphql-modules/core';
-
-// Example for InjectFn
+import { AppContext } from '@graphql-modules/core';
 
 export default {
   Query: {
-    posts: InjectFn((blog: Blog) => blog.allPosts(), Blog),
+    posts: (_, args, { injector }: AppContext) =>
+      injector.get(Blog).allPosts(),
   },
 };

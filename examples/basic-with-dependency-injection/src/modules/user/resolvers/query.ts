@@ -1,9 +1,11 @@
 import { Users } from '../providers/users';
-import { InjectFn } from '@graphql-modules/core';
+import { AppContext } from '@graphql-modules/core';
 
 export default {
   Query: {
-    users: InjectFn((users: Users) => users.allUsers(), Users),
-    user: InjectFn((users: Users, _, { id }) => users.getUser(id), Users),
+    users: (_, args, { injector }: AppContext) =>
+      injector.get(Users).allUsers(),
+    user: (_, { id }, { injector }: AppContext) =>
+      injector.get(Users).getUser(id),
   },
 };
